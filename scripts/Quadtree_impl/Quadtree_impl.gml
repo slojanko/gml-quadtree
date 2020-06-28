@@ -14,13 +14,13 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 	
 	subtree = array_create(4, undefined);
 	
-	// Todo: Update this to Optimize constantly when changing values
 	function SetValueInCircle(position_, radius_, value_) {
 		// Skip if not overlapping circle
-		if (OverlapCircle(position_, radius_) == false) {
+		if (IsOverlapCircle(position_, radius_) == false) {
 			return;
 		}
 		
+		// Skip if not split and values match
 		if (is_split == false && value == value_) {
 			return;
 		}
@@ -31,7 +31,8 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 			return;
 		}
 		
-		if (VerticesInCircle(position_, radius_)) {
+		// Optimize if whole tree is covered by circle
+		if (IsInsideCircle(position_, radius_)) {
 			if (is_split == true) {
 				RemoveSubtrees();
 			}
@@ -57,7 +58,7 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 		}
 	}
 	
-	function VerticesInCircle(position_, radius_) {
+	function IsInsideCircle(position_, radius_) {
 		if (point_in_circle(left_edge, top_edge, position_.x, position_.y, radius_) == false) {
 			return false;
 		}
@@ -117,7 +118,7 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 	}
 	
 	// https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
-	function OverlapCircle(position_, radius_) {
+	function IsOverlapCircle(position_, radius_) {
 		var x_ = abs(position_.x - position.x);
 	    var y_ = abs(position_.y - position.y);
 		

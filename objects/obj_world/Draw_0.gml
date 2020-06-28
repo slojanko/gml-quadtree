@@ -1,5 +1,7 @@
 terrain.Draw();
 
+draw_text(0, 20, "Time taken: " + string(performance.GetTime(PerformanceFormat.ms)));
+draw_text(0, 35, "Longest time taken: " + string(performance.GetLongestTime(PerformanceFormat.ms)));
 draw_circle_color(mouse_x, mouse_y, radius, value, value, true);
 
 // Color picker

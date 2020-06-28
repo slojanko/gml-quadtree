@@ -4,12 +4,14 @@ if (radius < 1) {
 	radius = 1;
 }
 	
-	
 // Paint with left mouse button
 if (mouse_check_button(mb_left)) {
-	terrain.SetValueInCircle(new Vector2(mouse_x, mouse_y), radius, value);
-	// terrain.Optimize();
+	performance.Start();
+	terrain.SetValueInCircle(new Vector2(350, 350), radius, value);
+	terrain.Optimize();
+	performance.End();
 }
+
 
 // Color pick with right mouse button
 if (mouse_check_button(mb_right)) {
