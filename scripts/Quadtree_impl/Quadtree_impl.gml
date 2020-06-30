@@ -143,6 +143,20 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 	    return (cDist_sq <= power(radius_, 2));
 	}
 	
+	function GetTreeSize() {
+		var size_ = 0;
+		
+		if (is_split == false) {
+			size_ = 1;
+		} else {
+			for(var i = 0; i < 4; i++) {
+				size_ += subtree[i].GetTreeSize();
+			}
+		}
+			
+		return size_;
+	}
+	
 	function Draw() {
 		if (is_split == false) {
 			draw_set_color(value);
