@@ -1,81 +1,61 @@
-function Quadtree(position_, dimension_, max_depth_, value_) constructor {
-	position = position_;
-	dimension = dimension_;
+function Quadtree(rect_, max_depth_, value_) constructor {
+	rect = rect_;
 	max_depth = max_depth_;
+	value = value_;
 	
 	// Cache edges
-	left_edge = position.x - dimension.x / 2;
-	top_edge = position.y - dimension.y / 2;
-	right_edge = position.x + dimension.x / 2;
-	bottom_edge = position.y + dimension.y / 2;
+	left_edge = rect.position.x;
+	top_edge = rect.position.y;
+	right_edge = rect.position.x + rect.dimension.x;
+	bottom_edge = rect.position.y + rect.dimension.y;
 	
 	value = value_;
 	is_split = false;
 	
 	subtree = array_create(4, undefined);
 	
-	function SetValueInCircle(position_, radius_, value_) {
-		// Skip if not overlapping circle
-		if (IsOverlapCircle(position_, radius_) == false) {
+	function SetValue(caster_) {
+		// Skip if not split and values match
+		if (is_split == false && value == caster_.value) {
 			return;
 		}
 		
-		// Skip if not split and values match
-		if (is_split == false && value == value_) {
+		// Skip if not overlapping circle
+		if (caster_.IsOverlapping(rect) == false) {
 			return;
 		}
 				
 		// Skip if max depth reached
 		if (max_depth <= 0) { 
-			value = value_;
+			value = caster_.value;
 			return;
 		}
 		
 		// Optimize if whole tree is covered by circle
-		if (IsInsideCircle(position_, radius_)) {
+		if (caster_.IsInside(rect)) {
 			if (is_split == true) {
 				RemoveSubtrees();
 			}
-			value = value_;
+			value = caster_.value;
 			return;
 		}
 			
 		var previous_value = value;
-		value = value_;
+		value = caster_.value;
 			
 		// Subdivide and repeat 
 		if (is_split == false) {			
 			// Top left | Top right | Bottom left | Bottom right
-			subtree[0] = new Quadtree(new Vector2(left_edge + dimension.x / 4, top_edge + dimension.y / 4), new Vector2(dimension.x / 2, dimension.y / 2), max_depth - 1, previous_value);
-			subtree[1] = new Quadtree(new Vector2(right_edge - dimension.x / 4, top_edge + dimension.y / 4), new Vector2(dimension.x / 2, dimension.y / 2), max_depth - 1, previous_value);
-			subtree[2] = new Quadtree(new Vector2(left_edge + dimension.x / 4, bottom_edge - dimension.y / 4), new Vector2(dimension.x / 2, dimension.y / 2), max_depth - 1, previous_value);
-			subtree[3] = new Quadtree(new Vector2(right_edge - dimension.x / 4, bottom_edge - dimension.y / 4), new Vector2(dimension.x / 2, dimension.y / 2), max_depth - 1, previous_value);
+			subtree[0] = new Quadtree(new Rect(new Vector2(left_edge, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[1] = new Quadtree(new Rect(new Vector2(left_edge + rect.dimension.x / 2, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[2] = new Quadtree(new Rect(new Vector2(left_edge, top_edge + rect.dimension.y / 2), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[3] = new Quadtree(new Rect(new Vector2(left_edge + rect.dimension.x / 2, top_edge + rect.dimension.y / 2), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
 			is_split = true;
 		}
 				
 		for(var i = 0; i < 4; i++) {
-			subtree[i].SetValueInCircle(position_, radius_, value);
+			subtree[i].SetValue(caster_);
 		}
-	}
-	
-	function IsInsideCircle(position_, radius_) {
-		if (point_in_circle(left_edge, top_edge, position_.x, position_.y, radius_) == false) {
-			return false;
-		}
-		
-		if (point_in_circle(right_edge, top_edge, position_.x, position_.y, radius_) == false) {
-			return false;
-		}
-				
-		if (point_in_circle(left_edge, bottom_edge, position_.x, position_.y, radius_) == false) {
-			return false;
-		}
-				
-		if (point_in_circle(right_edge, bottom_edge, position_.x, position_.y, radius_) == false) {
-			return false;
-		}
-		
-		return true;
 	}
 	
 	function RemoveSubtrees() {
@@ -91,7 +71,7 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 	}
 	
 	function Optimize() {
-		// Skip if not split
+		// Return success if not split
 		if (is_split == false) {
 			return true;
 		}
@@ -115,32 +95,6 @@ function Quadtree(position_, dimension_, max_depth_, value_) constructor {
 		}
 			
 		return success;
-	}
-	
-	// https://stackoverflow.com/questions/401847/circle-rectangle-collision-detection-intersection
-	function IsOverlapCircle(position_, radius_) {
-		var x_ = abs(position_.x - position.x);
-	    var y_ = abs(position_.y - position.y);
-		
-	    if (x_ > (dimension.x/2 + radius_)) { 
-			return false; 
-		}
-		
-	    if (y_ > (dimension.y/2 + radius_)) { 
-			return false; 
-		}
-		
-	    if (x_ <= (dimension.x/2)) { 
-			return true; 
-		} 
-		
-	    if (y_ <= (dimension.y/2)) { 
-			return true; 
-		}
-		
-	    var cDist_sq = power(x_ - dimension.x/2, 2) + power(y_ - dimension.y/2, 2);
- 
-	    return (cDist_sq <= power(radius_, 2));
 	}
 	
 	function GetTreeSize() {

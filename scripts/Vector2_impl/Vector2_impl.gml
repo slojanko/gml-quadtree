@@ -17,6 +17,11 @@ function Vector2(x_, y_) constructor {
 		this.y *= other_;
 	}
 	
+	function Divide(other_) {
+		this.x /= other_;
+		this.y /= other_;
+	}
+	
 	function DotProduct(other_) {
 		return (this.x * other_.x + this.y * other_.y);
 	}

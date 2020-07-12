@@ -1,3 +1,5 @@
 #macro this self
 #macro logc show_debug_message
-#macro local var
+
+game_set_speed(30, gamespeed_fps);
+show_debug_overlay(true);

@@ -10,7 +10,7 @@
   "option_lastchanged": "",
   "addon_amazon_apis": "",
   "addon_google_play_services": "",
-  "option_spine_licence": false,
+  "option_spine_licence": true,
   "resourceVersion": "1.1",
   "name": "Main",
   "tags": [],

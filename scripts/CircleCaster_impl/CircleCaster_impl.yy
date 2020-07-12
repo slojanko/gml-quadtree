@@ -6,7 +6,7 @@
     "path": "folders/Scripts/Quadtree_caster.yy",
   },
   "resourceVersion": "1.0",
-  "name": "Circle_caster_impl",
+  "name": "CircleCaster_impl",
   "tags": [],
   "resourceType": "GMScript",
 }

@@ -11,14 +11,6 @@ function Performance() constructor{
 	this.is_ticking = false;
 	this.longest_time_taken = 0;
 	
-	function Reset() {	
-		this.time_taken = 0;
-		this.start_time = 0;
-		this.end_time = 0;
-		this.is_ticking = false;
-		this.longest_time_taken = 0;
-	}
-	
 	function Start() {
 		if (is_ticking == false) {
 			this.start_time = get_timer();
@@ -35,6 +27,14 @@ function Performance() constructor{
 			}	
 			this.is_ticking = false;
 		}
+	}
+		
+	function Reset() {	
+		this.time_taken = 0;
+		this.start_time = 0;
+		this.end_time = 0;
+		this.is_ticking = false;
+		this.longest_time_taken = 0;
 	}
 	
 	function GetTime(performance_format_) {
