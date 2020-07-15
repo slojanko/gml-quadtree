@@ -3,3 +3,4 @@ performance = new Performance();
 circle_caster = new CircleCaster(new Vector2(350, 350), 100, 0);
 
 tree_size = 0;
+contains_caster = false;

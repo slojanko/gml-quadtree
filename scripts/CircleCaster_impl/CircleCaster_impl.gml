@@ -30,7 +30,7 @@ function CircleCaster(position_, radius_, value_) constructor {
 	    return (cDist_sq <= power(this.radius, 2));
 	}
 
-	function IsInside(rect_) {
+	function IsRectInside(rect_) {
 		var xx = rect_.position.x + rect_.dimension.x;
 		var yy = rect_.position.y + rect_.dimension.y;
 		

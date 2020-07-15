@@ -9,30 +9,24 @@ function Quadtree(rect_, max_depth_, value_) constructor {
 	right_edge = rect.position.x + rect.dimension.x;
 	bottom_edge = rect.position.y + rect.dimension.y;
 	
-	value = value_;
 	is_split = false;
-	
 	subtree = array_create(4, undefined);
 	
-	function SetValue(caster_) {
-		// Skip if not split and values match
+	function ApplyCaster(caster_) {
 		if (is_split == false && value == caster_.value) {
 			return;
 		}
 		
-		// Skip if not overlapping circle
 		if (caster_.IsOverlapping(rect) == false) {
 			return;
 		}
 				
-		// Skip if max depth reached
 		if (max_depth <= 0) { 
 			value = caster_.value;
 			return;
 		}
 		
-		// Optimize if whole tree is covered by circle
-		if (caster_.IsInside(rect)) {
+		if (caster_.IsRectInside(rect)) {
 			if (is_split == true) {
 				RemoveSubtrees();
 			}
@@ -43,19 +37,36 @@ function Quadtree(rect_, max_depth_, value_) constructor {
 		var previous_value = value;
 		value = caster_.value;
 			
-		// Subdivide and repeat 
 		if (is_split == false) {			
 			// Top left | Top right | Bottom left | Bottom right
+			var center_ = rect.GetCenter();
 			subtree[0] = new Quadtree(new Rect(new Vector2(left_edge, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[1] = new Quadtree(new Rect(new Vector2(left_edge + rect.dimension.x / 2, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[2] = new Quadtree(new Rect(new Vector2(left_edge, top_edge + rect.dimension.y / 2), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[3] = new Quadtree(new Rect(new Vector2(left_edge + rect.dimension.x / 2, top_edge + rect.dimension.y / 2), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[1] = new Quadtree(new Rect(new Vector2(center_.x, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[2] = new Quadtree(new Rect(new Vector2(left_edge, center_.y), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			subtree[3] = new Quadtree(new Rect(new Vector2(center_.x, center_.y), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
 			is_split = true;
 		}
 				
 		for(var i = 0; i < 4; i++) {
-			subtree[i].SetValue(caster_);
+			subtree[i].ApplyCaster(caster_);
 		}
+	}
+	
+	function ContainsCaster(caster_) {		
+		if (caster_.IsOverlapping(rect) == false) {
+			return false;
+		}
+		
+		if (is_split == false) {
+			return value == caster_.value;
+		}
+		
+		for(var i = 0; i < 4; i++) {
+			if (subtree[i].ContainsCaster(caster_))
+				return true;
+		}
+		
+		return false;
 	}
 	
 	function RemoveSubtrees() {
@@ -71,13 +82,11 @@ function Quadtree(rect_, max_depth_, value_) constructor {
 	}
 	
 	function Optimize() {
-		// Return success if not split
 		if (is_split == false) {
 			return true;
 		}
 		
 		// Try to optimize subtrees
-		// Successfull if all can be optimized and all values are the same
 		var success = true;			
 		for(var i = 0; i < 4; i++) {
 			var subtree_success = subtree[i].Optimize();
