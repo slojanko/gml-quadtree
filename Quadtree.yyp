@@ -3,6 +3,7 @@
     {"id":{"name":"Quadtree_impl","path":"scripts/Quadtree_impl/Quadtree_impl.yy",},"order":1,},
     {"id":{"name":"Rect_impl","path":"scripts/Rect_impl/Rect_impl.yy",},"order":2,},
     {"id":{"name":"globals","path":"scripts/globals/globals.yy",},"order":0,},
+    {"id":{"name":"RectCaster_impl","path":"scripts/RectCaster_impl/RectCaster_impl.yy",},"order":1,},
     {"id":{"name":"Vector2_impl","path":"scripts/Vector2_impl/Vector2_impl.yy",},"order":1,},
     {"id":{"name":"obj_world","path":"objects/obj_world/obj_world.yy",},"order":0,},
     {"id":{"name":"Performance_impl","path":"scripts/Performance_impl/Performance_impl.yy",},"order":3,},

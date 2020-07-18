@@ -40,10 +40,11 @@ function Quadtree(rect_, max_depth_, value_) constructor {
 		if (is_split == false) {			
 			// Top left | Top right | Bottom left | Bottom right
 			var center_ = rect.GetCenter();
-			subtree[0] = new Quadtree(new Rect(new Vector2(left_edge, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[1] = new Quadtree(new Rect(new Vector2(center_.x, top_edge), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[2] = new Quadtree(new Rect(new Vector2(left_edge, center_.y), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
-			subtree[3] = new Quadtree(new Rect(new Vector2(center_.x, center_.y), new Vector2(rect.dimension.x / 2, rect.dimension.y / 2)), max_depth - 1, previous_value);
+			var dimension_ = new Vector2(rect.dimension.x / 2, rect.dimension.y / 2);
+			subtree[0] = new Quadtree(new Rect(new Vector2(left_edge, top_edge), dimension_), max_depth - 1, previous_value);
+			subtree[1] = new Quadtree(new Rect(new Vector2(center_.x, top_edge), dimension_), max_depth - 1, previous_value);
+			subtree[2] = new Quadtree(new Rect(new Vector2(left_edge, center_.y), dimension_), max_depth - 1, previous_value);
+			subtree[3] = new Quadtree(new Rect(new Vector2(center_.x, center_.y), dimension_), max_depth - 1, previous_value);
 			is_split = true;
 		}
 				
