@@ -1,8 +1,7 @@
 // Update caster values
-circle_caster.radius += circle_caster.radius * 0.2  * (mouse_wheel_up() - mouse_wheel_down());
-if (circle_caster.radius < 1) {
-	circle_caster.radius = 1;
-}
+var scale = 0.2 * (mouse_wheel_up() - mouse_wheel_down());
+if (scale != 0)
+	circle_caster.ScaleRadius(scale);
 
 // Color pick with right mb
 if (mouse_check_button(mb_right)) {
