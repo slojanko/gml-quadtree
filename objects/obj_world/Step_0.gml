@@ -1,6 +1,6 @@
 // Update caster values
-var scale = 0.2 * (mouse_wheel_up() - mouse_wheel_down());
-if (scale != 0)
+var scale = 1 + 0.2 * (mouse_wheel_up() - mouse_wheel_down());
+if (scale != 1)
 	circle_caster.ScaleRadius(scale);
 
 // Color pick with right mb
@@ -23,5 +23,5 @@ if (mouse_check_button(mb_left)) {
 
 // Check for caster in quadtree with middle mb
 if (mouse_check_button(mb_middle)) {
-	contains_caster = terrain.ContainsCaster(circle_caster)
+	contains_caster = terrain.ContainsOnlyCaster(circle_caster)
 }

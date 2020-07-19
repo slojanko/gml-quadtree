@@ -17,11 +17,11 @@ function RectCaster(position_, dimension_, value_) constructor {
 		var xx = rect_.position.x + rect_.dimension.x;
 		var yy = rect_.position.y + rect_.dimension.y;
 		
-		if (point_in_rectangle(rect_.position.x, rect_.position.y, position.x, position.y, position.x + dimension.x, position.y + dimension.y) == false) {
+		if (!point_in_rectangle(rect_.position.x, rect_.position.y, position.x, position.y, position.x + dimension.x, position.y + dimension.y)) {
 			return false;
 		}
 				
-		if (point_in_rectangle(xx, yy, position.x, position.y, position.x + dimension.x, position.y + dimension.y) == false) {
+		if (!point_in_rectangle(xx, yy, position.x, position.y, position.x + dimension.x, position.y + dimension.y)) {
 			return false;
 		}
 		

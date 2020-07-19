@@ -12,14 +12,14 @@ function Performance() constructor{
 	longest_time_taken = 0;
 	
 	function Start() {
-		if (is_ticking == false) {
+		if (!is_ticking) {
 			start_time = get_timer();
 			is_ticking = true;
 		}
 	}
 	
 	function End() {
-		if (is_ticking == true) {
+		if (is_ticking) {
 			end_time = get_timer();
 			time_taken = end_time - start_time;
 			if (time_taken > longest_time_taken) {

@@ -35,7 +35,7 @@ function CircleCaster(position_, radius_, value_) constructor {
 	}
 	
 	function ScaleRadius(scale_) {
-		radius *= (1 + scale_);
+		radius *= scale_;
 		radius = max(1, radius);
 		radius2 = radius * radius;
 	}
