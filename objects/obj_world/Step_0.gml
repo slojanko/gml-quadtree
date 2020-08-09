@@ -23,5 +23,7 @@ if (mouse_check_button(mb_left)) {
 
 // Check for caster in quadtree with middle mb
 if (mouse_check_button(mb_middle)) {
-	contains_caster = terrain.ContainsOnlyCaster(circle_caster)
+	performance.Start();
+	contains_caster = terrain.ContainsOnlyCaster(circle_caster);
+	performance.End();
 }

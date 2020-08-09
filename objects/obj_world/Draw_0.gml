@@ -1,5 +1,6 @@
 terrain.Draw();
 
+draw_set_color(c_white);
 draw_text(720, 20, "Time taken: " + string(performance.GetTime(PerformanceFormat.ms)));
 draw_text(720, 35, "Longest time taken: " + string(performance.GetLongestTime(PerformanceFormat.ms)));
 draw_text(720, 50, "Tree size: " + string(tree_size));
